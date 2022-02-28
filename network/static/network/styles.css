@@ -1,0 +1,42 @@
+#all_posts {
+    padding: 10px;
+    font-family: sans-serif;
+}
+
+#new_post {
+    padding: 15px;
+    border: solid lightgray 1px;
+    border-radius: 5px;
+}
+
+#post_button {
+    margin-top: 5px;
+}
+
+#posts_list {
+    padding: 10px;
+    font-family: sans-serif;
+}
+
+.listed_post { 
+    padding: 10px;
+    border: solid lightgray 1px;
+    border-radius: 5px;
+}
+
+.timestamp {
+    color: gray;
+}
+
+.follow_button {
+    margin-top: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.post_text {
+    margin-bottom: 2px;
+    margin-top: 2px;
+}

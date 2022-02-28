@@ -1,0 +1,69 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div id="all_posts">
+        <h1 id="profile_username">{{user_profile.username.capitalize}}</h1>
+        <div id="user_posts">
+            <div id="followage">
+                <strong>Followers: </strong>{{followers}}<br>
+                <strong>Following: </strong>{{following_number}}
+            </div>
+            {% if not owner and user.is_authenticated %}
+                {% if not following %}
+                <button type="button" onclick="follow()" class="follow_button btn btn-primary">Follow</button>
+                {% else %}
+                <button type="button" onclick="follow()" class="follow_button btn btn-primary">Unfollow</button>
+                {% endif %}
+            {% else %}
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="posts_list">
+        {% for post in page_obj %}
+            <div class="listed_post">
+                <h5>{{post.user.username.capitalize}}</h5>
+                {% if post.user == request.user %}
+                    <a href="#">Edit</a><br>
+                {% endif %}
+                <p id="{{post.id}}" class="post_text">{{post.post}}</p>
+                <span class="timestamp">{{post.timestamp}}</span><br>
+                {% if not user.is_authenticated %}
+                    <i id="like_{{post.id}}" class="bi bi-heart" onclick="login()"></i>
+                {% else %}
+                    {% if request.user in post.get_likes %}
+                        <i id="dislike_{{post.id}}" class="bi bi-heart-fill" onclick="like('{{post.id}}')"></i>
+                    {% else %}
+                        <i id="like_{{post.id}}" class="bi bi-heart" onclick="like('{{post.id}}')"></i>
+                    {% endif %}
+                {% endif %}
+                <span id="like_count_{{post.id}}">{{post.likes}}</span><br>
+                <span class="timestamp">Comment</span>
+            </div>
+            {% with page_obj|last as last %}
+                {% if post == last %}
+                {% else %}
+                    <hr>
+                {% endif %}
+            {% endwith %}
+        {% endfor %}
+    </div>
+
+    <div>
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>    
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li> 
+            {% endif %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
